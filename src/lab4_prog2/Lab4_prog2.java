@@ -8,6 +8,7 @@ package lab4_prog2;
  *
  * @author denam
  */
+import javax.swing.SwingUtilities;
 public class Lab4_prog2 {
 
     /**
@@ -15,6 +16,8 @@ public class Lab4_prog2 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        
     }
     
 }

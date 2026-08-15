@@ -11,9 +11,11 @@ package lab4_prog2;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class GuiJuego extends JFrame {
-     private JLabel lblTurnos;
-     private int turno ;
+
+    private JLabel lblTurnos;
+    private int turno;
     private JPanel panelAhorcado;
     private JPanel panelLetrasEncontradas;
     private JPanel panelLetrasErroneas;
@@ -31,346 +33,962 @@ public class GuiJuego extends JFrame {
     private JLabel[] imagenAhorcado;
 
     private Timer timerError;
-   
+
     private JuegoAhorcado juego;
 
-    public GuiJuego(String mensaje, int turno, JuegoAhorcado juego) {
+    public GuiJuego(
+        String mensaje,
+        int turno,
+        JuegoAhorcado juego
+    ) {
+
         this.turno = turno;
+
+        this.juego = juego;
+
         setTitle(mensaje);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.juego=juego;
-        getContentPane().setBackground(Color.WHITE);
-        setLayout(new BorderLayout());
-       
-        String palabraInicial = new String(new char[juego.getPalabraMostrada().length]).replace('\0', ' ');
+
+        setExtendedState(
+            JFrame.MAXIMIZED_BOTH
+        );
+
+        setDefaultCloseOperation(
+            JFrame.EXIT_ON_CLOSE
+        );
+
+        getContentPane().setBackground(
+            Color.WHITE
+        );
+
+        setLayout(
+            new BorderLayout()
+        );
+
+        String palabraInicial =
+            new String(
+                new char[
+                    juego.getPalabraMostrada().length
+                ]
+            ).replace(
+                '\0',
+                ' '
+            );
+
         crearInterfaz(palabraInicial);
+
         setVisible(true);
     }
 
-    public void setJuego(JuegoAhorcado juego) {
+    public void setJuego(
+        JuegoAhorcado juego
+    ) {
         this.juego = juego;
     }
 
-    private void crearInterfaz(String mensaje) {
-        JPanel contenedorPrincipal = new JPanel(new GridLayout(1, 3, 20, 0));
-        contenedorPrincipal.setBackground(Color.WHITE);
-        contenedorPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    public JuegoAhorcado getJuego() {
+        return juego;
+    }
 
-        JPanel columnaIzquierda = crearColumnaIzquierda();
-        JPanel columnaCentro = crearColumnaCentro(mensaje);
-        JPanel columnaDerecha = crearColumnaDerecha();
+    private void crearInterfaz(
+        String mensaje
+    ) {
 
-        contenedorPrincipal.add(columnaIzquierda);
-        contenedorPrincipal.add(columnaCentro);
-        contenedorPrincipal.add(columnaDerecha);
+        JPanel contenedorPrincipal =
+            new JPanel(
+                new GridLayout(
+                    1,
+                    3,
+                    20,
+                    0
+                )
+            );
 
-        add(contenedorPrincipal, BorderLayout.CENTER);
+        contenedorPrincipal.setBackground(
+            Color.WHITE
+        );
+
+        contenedorPrincipal.setBorder(
+            BorderFactory.createEmptyBorder(
+                20,
+                20,
+                20,
+                20
+            )
+        );
+
+        JPanel columnaIzquierda =
+            crearColumnaIzquierda();
+
+        JPanel columnaCentro =
+            crearColumnaCentro(mensaje);
+
+        JPanel columnaDerecha =
+            crearColumnaDerecha();
+
+        contenedorPrincipal.add(
+            columnaIzquierda
+        );
+
+        contenedorPrincipal.add(
+            columnaCentro
+        );
+
+        contenedorPrincipal.add(
+            columnaDerecha
+        );
+
+        add(
+            contenedorPrincipal,
+            BorderLayout.CENTER
+        );
     }
 
     private JPanel crearColumnaIzquierda() {
-        JPanel columna = new JPanel();
-        columna.setBackground(Color.WHITE);
-        columna.setLayout(new BoxLayout(columna, BoxLayout.Y_AXIS));
 
-        lblTurnos = new JLabel("Fallos disponibles: " + turno);
-        lblTurnos.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTurnos.setAlignmentX(CENTER_ALIGNMENT);
+        JPanel columna =
+            new JPanel();
 
-        lblPalabrasEncontradas = new JLabel("Palabras encontradas");
-        lblPalabrasEncontradas.setFont(new Font("Arial", Font.BOLD, 20));
-        lblPalabrasEncontradas.setAlignmentX(CENTER_ALIGNMENT);
+        columna.setBackground(
+            Color.WHITE
+        );
 
-        panelLetrasEncontradas = new JPanel(new GridLayout(6, 5, 10, 10));
-        panelLetrasEncontradas.setBackground(Color.WHITE);
-        panelLetrasEncontradas.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panelLetrasEncontradas.setMaximumSize(new Dimension(350, 500));
-        panelLetrasEncontradas.setPreferredSize(new Dimension(350, 500));
+        columna.setLayout(
+            new BoxLayout(
+                columna,
+                BoxLayout.Y_AXIS
+            )
+        );
 
-        letrasEncontradas = new JLabel[30];
-        for (int i = 0; i < letrasEncontradas.length; i++) {
-            letrasEncontradas[i] = new JLabel("", JLabel.CENTER);
-            letrasEncontradas[i].setFont(new Font("Arial", Font.BOLD, 22));
-            letrasEncontradas[i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-            letrasEncontradas[i].setVisible(false);
-            panelLetrasEncontradas.add(letrasEncontradas[i]);
+        lblTurnos =
+            new JLabel(
+                "Fallos disponibles: " + turno
+            );
+
+        lblTurnos.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                24
+            )
+        );
+
+        lblTurnos.setAlignmentX(
+            CENTER_ALIGNMENT
+        );
+
+        lblPalabrasEncontradas =
+            new JLabel(
+                "Letras encontradas"
+            );
+
+        lblPalabrasEncontradas.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                20
+            )
+        );
+
+        lblPalabrasEncontradas.setAlignmentX(
+            CENTER_ALIGNMENT
+        );
+
+        panelLetrasEncontradas =
+            new JPanel(
+                new GridLayout(
+                    6,
+                    5,
+                    10,
+                    10
+                )
+            );
+
+        panelLetrasEncontradas.setBackground(
+            Color.WHITE
+        );
+
+        panelLetrasEncontradas.setBorder(
+            BorderFactory.createLineBorder(
+                Color.BLACK,
+                2
+            )
+        );
+
+        panelLetrasEncontradas.setMaximumSize(
+            new Dimension(350, 500)
+        );
+
+        panelLetrasEncontradas.setPreferredSize(
+            new Dimension(350, 500)
+        );
+
+        letrasEncontradas =
+            new JLabel[30];
+
+        for (int i = 0;
+             i < letrasEncontradas.length;
+             i++) {
+
+            letrasEncontradas[i] =
+                new JLabel(
+                    "",
+                    JLabel.CENTER
+                );
+
+            letrasEncontradas[i].setFont(
+                new Font(
+                    "Arial",
+                    Font.BOLD,
+                    22
+                )
+            );
+
+            letrasEncontradas[i].setBorder(
+                BorderFactory.createLineBorder(
+                    Color.LIGHT_GRAY,
+                    1
+                )
+            );
+
+            letrasEncontradas[i].setVisible(
+                false
+            );
+
+            panelLetrasEncontradas.add(
+                letrasEncontradas[i]
+            );
         }
 
         columna.add(lblTurnos);
-        columna.add(Box.createRigidArea(new Dimension(0, 30)));
-        columna.add(lblPalabrasEncontradas);
-        columna.add(Box.createRigidArea(new Dimension(0, 15)));
-        columna.add(panelLetrasEncontradas);
+
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 30)
+            )
+        );
+
+        columna.add(
+            lblPalabrasEncontradas
+        );
+
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 15)
+            )
+        );
+
+        columna.add(
+            panelLetrasEncontradas
+        );
 
         return columna;
     }
 
-    private JPanel crearColumnaCentro(String mensaje) {
-        JPanel columna = new JPanel();
-        columna.setBackground(Color.WHITE);
-        columna.setLayout(new BoxLayout(columna, BoxLayout.Y_AXIS));
+    private JPanel crearColumnaCentro(
+        String mensaje
+    ) {
 
-        lblFallosDisponibles = new JLabel("Fallos disponibles: " + turno);
-        lblFallosDisponibles.setFont(new Font("Arial", Font.BOLD, 20));
-        lblFallosDisponibles.setAlignmentX(CENTER_ALIGNMENT);
+        JPanel columna =
+            new JPanel();
 
-        panelAhorcado = new JPanel();
-        panelAhorcado.setLayout(new GridLayout(3, 2, 10, 10));
-        
-        panelAhorcado.setBackground(Color.WHITE);
-        panelAhorcado.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panelAhorcado.setPreferredSize(new Dimension(500, 350));
-        panelAhorcado.setMaximumSize(new Dimension(500, 350));
-        cargarPanelAhorcado(juego.InicializarfiguraAhorcado());
-        
+        columna.setBackground(
+            Color.WHITE
+        );
 
-        txtIngresar = new JTextField();
-        txtIngresar.setMaximumSize(new Dimension(80, 40));
-        txtIngresar.setPreferredSize(new Dimension(80, 40));
-        txtIngresar.setFont(new Font("Arial", Font.PLAIN, 22));
-        txtIngresar.setHorizontalAlignment(JTextField.CENTER);
-        
+        columna.setLayout(
+            new BoxLayout(
+                columna,
+                BoxLayout.Y_AXIS
+            )
+        );
 
-        panelPalabra = new JPanel();
-        panelPalabra.setBackground(Color.WHITE);
-        panelPalabra.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panelPalabra.setMaximumSize(new Dimension(500, 120));
-        panelPalabra.setPreferredSize(new Dimension(500, 120));
+        lblFallosDisponibles =
+            new JLabel(
+                "Fallos disponibles: " + turno
+            );
 
-        construirPanelPalabra(mensaje);
+        lblFallosDisponibles.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                20
+            )
+        );
 
-        btnComprobar = new JButton("Comprobar");
-        btnComprobar.setAlignmentX(CENTER_ALIGNMENT);
-        btnComprobar.setMaximumSize(new Dimension(160, 45));
-        btnComprobar.setFont(new Font("Arial", Font.BOLD, 18));
-        btnComprobar.addActionListener(ev->{
-        detectarPalabra(txtIngresar.getText());
-        });
-        
-        txtIngresar.addActionListener(ev->{
-        detectarPalabra(txtIngresar.getText());
-        });
+        lblFallosDisponibles.setAlignmentX(
+            CENTER_ALIGNMENT
+        );
 
-        lblError = new JLabel("");
-        lblError.setFont(new Font("Arial", Font.PLAIN, 14));
-        lblError.setForeground(Color.RED);
-        lblError.setAlignmentX(CENTER_ALIGNMENT);
+        panelAhorcado =
+            new JPanel();
 
-        columna.add(lblFallosDisponibles);
-        columna.add(Box.createRigidArea(new Dimension(0, 15)));
-        columna.add(panelAhorcado);
-        columna.add(Box.createRigidArea(new Dimension(0, 20)));
-        columna.add(txtIngresar);
-        columna.add(Box.createRigidArea(new Dimension(0, 15)));
-        columna.add(panelPalabra);
-        columna.add(Box.createRigidArea(new Dimension(0, 15)));
-        columna.add(btnComprobar);
-        columna.add(Box.createRigidArea(new Dimension(0, 10)));
-        columna.add(lblError);
+        panelAhorcado.setLayout(
+            new GridLayout(
+                3,
+                2,
+                10,
+                10
+            )
+        );
+
+        panelAhorcado.setBackground(
+            Color.WHITE
+        );
+
+        panelAhorcado.setBorder(
+            BorderFactory.createLineBorder(
+                Color.BLACK,
+                2
+            )
+        );
+
+        panelAhorcado.setPreferredSize(
+            new Dimension(500, 350)
+        );
+
+        panelAhorcado.setMaximumSize(
+            new Dimension(500, 350)
+        );
+
+        cargarPanelAhorcado(
+            juego.getFigura()
+        );
+
+        txtIngresar =
+            new JTextField();
+
+        txtIngresar.setMaximumSize(
+            new Dimension(80, 40)
+        );
+
+        txtIngresar.setPreferredSize(
+            new Dimension(80, 40)
+        );
+
+        txtIngresar.setFont(
+            new Font(
+                "Arial",
+                Font.PLAIN,
+                22
+            )
+        );
+
+        txtIngresar.setHorizontalAlignment(
+            JTextField.CENTER
+        );
+
+        panelPalabra =
+            new JPanel();
+
+        panelPalabra.setBackground(
+            Color.WHITE
+        );
+
+        panelPalabra.setBorder(
+            BorderFactory.createLineBorder(
+                Color.BLACK,
+                2
+            )
+        );
+
+        panelPalabra.setMaximumSize(
+            new Dimension(700, 120)
+        );
+
+        panelPalabra.setPreferredSize(
+            new Dimension(500, 120)
+        );
+
+        construirPanelPalabra(
+            mensaje
+        );
+
+        btnComprobar =
+            new JButton("Comprobar");
+
+        btnComprobar.setAlignmentX(
+            CENTER_ALIGNMENT
+        );
+
+        btnComprobar.setMaximumSize(
+            new Dimension(160, 45)
+        );
+
+        btnComprobar.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                18
+            )
+        );
+
+        btnComprobar.addActionListener(
+            ev -> detectarPalabra(
+                txtIngresar.getText()
+            )
+        );
+
+        txtIngresar.addActionListener(
+            ev -> detectarPalabra(
+                txtIngresar.getText()
+            )
+        );
+
+        lblError =
+            new JLabel("");
+
+        lblError.setFont(
+            new Font(
+                "Arial",
+                Font.PLAIN,
+                14
+            )
+        );
+
+        lblError.setForeground(
+            Color.RED
+        );
+
+        lblError.setAlignmentX(
+            CENTER_ALIGNMENT
+        );
+
+        columna.add(
+            lblFallosDisponibles
+        );
+
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 15)
+            )
+        );
+
+        columna.add(
+            panelAhorcado
+        );
+
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 20)
+            )
+        );
+
+        columna.add(
+            txtIngresar
+        );
+
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 15)
+            )
+        );
+
+        columna.add(
+            panelPalabra
+        );
+
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 15)
+            )
+        );
+
+        columna.add(
+            btnComprobar
+        );
+
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 10)
+            )
+        );
+
+        columna.add(
+            lblError
+        );
 
         return columna;
     }
-    
-    private void cargarPanelAhorcado(JLabel[] figuras) {
+
+    private void cargarPanelAhorcado(
+        JLabel[] figuras
+    ) {
+
         panelAhorcado.removeAll();
 
         imagenAhorcado = figuras;
 
-        for (int i = 0; i < imagenAhorcado.length; i++) {
-            panelAhorcado.add(imagenAhorcado[i]);
+        for (int i = 0;
+             i < imagenAhorcado.length;
+             i++) {
+
+            panelAhorcado.add(
+                imagenAhorcado[i]
+            );
         }
 
         panelAhorcado.revalidate();
         panelAhorcado.repaint();
     }
-    
-    
-    
-    private void detectarPalabra(String letra){
+
+    private void detectarPalabra(
+        String letra
+    ) {
+
         try {
-            if (letra == null || letra.trim().isEmpty() || letra.length() != 1) {
-                throw new LetraInvalidaException("Debes ingresar una sola letra.");
+
+            if (letra == null ||
+                letra.trim().isEmpty() ||
+                letra.trim().length() != 1) {
+
+                throw new LetraInvalidaException(
+                    "Debes ingresar una sola letra."
+                );
             }
 
-            char letraChar = letra.charAt(0);
-            
-            boolean jugadaValida = juego.procesarJugada(letraChar);
-            
+            char letraChar =
+                letra.trim().charAt(0);
+
+            boolean jugadaValida =
+                juego.procesarJugada(
+                    letraChar
+                );
+
             if (!jugadaValida) {
-                mostrarErrorTemporal("La letra '" + letraChar + "' ya fue ingresada.");
+
+                mostrarErrorTemporal(
+                    "La letra '" +
+                    letraChar +
+                    "' ya fue ingresada."
+                );
+
                 return;
             }
 
-            char letraNormalizada = juego.normalizarLetra(letraChar);
-            boolean acerto = juego.verificarLetra(letraNormalizada);
-            
-            if (acerto) {
-                actualizarVisualPalabraMostrada();
-            }
+            char letraNormalizada =
+                juego.normalizarLetra(
+                    letraChar
+                );
 
-            actualizarTableroLetras(String.valueOf(letraChar).toUpperCase(), acerto);
+            boolean acerto =
+                juego.verificarLetra(
+                    letraNormalizada
+                );
 
-        } catch (LetraInvalidaException e) {
-            mostrarErrorTemporal(e.getMessage());
+            actualizarTableroLetras(
+                String.valueOf(
+                    letraChar
+                ).toUpperCase(),
+                acerto
+            );
+
+        } catch (
+            LetraInvalidaException e
+        ) {
+
+            mostrarErrorTemporal(
+                e.getMessage()
+            );
+
+        } catch (
+            IllegalArgumentException e
+        ) {
+
+            mostrarErrorTemporal(
+                e.getMessage()
+            );
+
         } finally {
+
             txtIngresar.setText("");
             txtIngresar.requestFocus();
         }
     }
-            
+
     private void actualizarVisualPalabraMostrada() {
-        char[] palabraActual = juego.getPalabraMostrada();
-        for (int i = 0; i < palabraActual.length; i++) {
+
+        char[] palabraActual =
+            juego.getPalabraMostrada();
+
+        for (int i = 0;
+             i < palabraActual.length;
+             i++) {
+
             if (palabraActual[i] != '_') {
-                tableroPalabra[0][i].setText(String.valueOf(palabraActual[i]).toUpperCase());
+
+                tableroPalabra[0][i].setText(
+                    String.valueOf(
+                        palabraActual[i]
+                    ).toUpperCase()
+                );
             }
         }
     }
-         
-    
 
     private JPanel crearColumnaDerecha() {
-        JPanel columna = new JPanel();
-        columna.setBackground(Color.WHITE);
-        columna.setLayout(new BoxLayout(columna, BoxLayout.Y_AXIS));
 
-        lblPalabrasErroneas = new JLabel("Palabras erronesas");
-        lblPalabrasErroneas.setFont(new Font("Arial", Font.BOLD, 20));
-        lblPalabrasErroneas.setAlignmentX(CENTER_ALIGNMENT);
+        JPanel columna =
+            new JPanel();
 
-        panelLetrasErroneas = new JPanel(new GridLayout(6, 5, 10, 10));
-        panelLetrasErroneas.setBackground(Color.WHITE);
-        panelLetrasErroneas.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panelLetrasErroneas.setMaximumSize(new Dimension(350, 500));
-        panelLetrasErroneas.setPreferredSize(new Dimension(350, 500));
+        columna.setBackground(
+            Color.WHITE
+        );
 
-        letrasErroneas = new JLabel[30];
-        for (int i = 0; i < letrasErroneas.length; i++) {
-            letrasErroneas[i] = new JLabel("", JLabel.CENTER);
-            letrasErroneas[i].setFont(new Font("Arial", Font.BOLD, 22));
-            letrasErroneas[i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-            letrasErroneas[i].setVisible(false);
-            panelLetrasErroneas.add(letrasErroneas[i]);
+        columna.setLayout(
+            new BoxLayout(
+                columna,
+                BoxLayout.Y_AXIS
+            )
+        );
+
+        lblPalabrasErroneas =
+            new JLabel(
+                "Letras erróneas"
+            );
+
+        lblPalabrasErroneas.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                20
+            )
+        );
+
+        lblPalabrasErroneas.setAlignmentX(
+            CENTER_ALIGNMENT
+        );
+
+        panelLetrasErroneas =
+            new JPanel(
+                new GridLayout(
+                    6,
+                    5,
+                    10,
+                    10
+                )
+            );
+
+        panelLetrasErroneas.setBackground(
+            Color.WHITE
+        );
+
+        panelLetrasErroneas.setBorder(
+            BorderFactory.createLineBorder(
+                Color.BLACK,
+                2
+            )
+        );
+
+        panelLetrasErroneas.setMaximumSize(
+            new Dimension(350, 500)
+        );
+
+        panelLetrasErroneas.setPreferredSize(
+            new Dimension(350, 500)
+        );
+
+        letrasErroneas =
+            new JLabel[30];
+
+        for (int i = 0;
+             i < letrasErroneas.length;
+             i++) {
+
+            letrasErroneas[i] =
+                new JLabel(
+                    "",
+                    JLabel.CENTER
+                );
+
+            letrasErroneas[i].setFont(
+                new Font(
+                    "Arial",
+                    Font.BOLD,
+                    22
+                )
+            );
+
+            letrasErroneas[i].setBorder(
+                BorderFactory.createLineBorder(
+                    Color.LIGHT_GRAY,
+                    1
+                )
+            );
+
+            letrasErroneas[i].setVisible(
+                false
+            );
+
+            panelLetrasErroneas.add(
+                letrasErroneas[i]
+            );
         }
 
-        columna.add(Box.createRigidArea(new Dimension(0, 54)));
-        columna.add(lblPalabrasErroneas);
-        columna.add(Box.createRigidArea(new Dimension(0, 15)));
-        columna.add(panelLetrasErroneas);
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 54)
+            )
+        );
+
+        columna.add(
+            lblPalabrasErroneas
+        );
+
+        columna.add(
+            Box.createRigidArea(
+                new Dimension(0, 15)
+            )
+        );
+
+        columna.add(
+            panelLetrasErroneas
+        );
 
         return columna;
     }
 
-    public void construirPanelPalabra(String palabra) {
+    public void construirPanelPalabra(
+        String palabra
+    ) {
+
         panelPalabra.removeAll();
 
-        int columnas = palabra.length();
-        panelPalabra.setLayout(new GridLayout(2, columnas, 5, 5));
+        int columnas =
+            palabra.length();
 
-        tableroPalabra = new JLabel[2][columnas];
+        panelPalabra.setLayout(
+            new GridLayout(
+                2,
+                columnas,
+                5,
+                5
+            )
+        );
 
-        for (int i = 0; i < columnas; i++) {
-            tableroPalabra[0][i] = new JLabel("", JLabel.CENTER);
-            tableroPalabra[0][i].setFont(new Font("Arial", Font.BOLD, 26));
-            tableroPalabra[0][i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-            panelPalabra.add(tableroPalabra[0][i]);
+        tableroPalabra =
+            new JLabel[2][columnas];
+
+        for (int i = 0;
+             i < columnas;
+             i++) {
+
+            tableroPalabra[0][i] =
+                new JLabel(
+                    "",
+                    JLabel.CENTER
+                );
+
+            tableroPalabra[0][i].setFont(
+                new Font(
+                    "Arial",
+                    Font.BOLD,
+                    26
+                )
+            );
+
+            tableroPalabra[0][i].setBorder(
+                BorderFactory.createLineBorder(
+                    Color.LIGHT_GRAY,
+                    1
+                )
+            );
+
+            panelPalabra.add(
+                tableroPalabra[0][i]
+            );
         }
 
-        for (int i = 0; i < columnas; i++) {
-            tableroPalabra[1][i] = new JLabel("-", JLabel.CENTER);
-            tableroPalabra[1][i].setFont(new Font("Arial", Font.BOLD, 26));
-            tableroPalabra[1][i].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-            panelPalabra.add(tableroPalabra[1][i]);
+        for (int i = 0;
+             i < columnas;
+             i++) {
+
+            tableroPalabra[1][i] =
+                new JLabel(
+                    "-",
+                    JLabel.CENTER
+                );
+
+            tableroPalabra[1][i].setFont(
+                new Font(
+                    "Arial",
+                    Font.BOLD,
+                    26
+                )
+            );
+
+            tableroPalabra[1][i].setBorder(
+                BorderFactory.createLineBorder(
+                    Color.LIGHT_GRAY,
+                    1
+                )
+            );
+
+            panelPalabra.add(
+                tableroPalabra[1][i]
+            );
         }
 
-        int ancho = columnas * 60;
+        int ancho =
+            columnas * 60;
+
         if (ancho < 250) {
             ancho = 250;
         }
+
         if (ancho > 700) {
             ancho = 700;
         }
 
-        panelPalabra.setMaximumSize(new Dimension(ancho, 120));
-        panelPalabra.setPreferredSize(new Dimension(ancho, 120));
+        panelPalabra.setMaximumSize(
+            new Dimension(
+                ancho,
+                120
+            )
+        );
+
+        panelPalabra.setPreferredSize(
+            new Dimension(
+                ancho,
+                120
+            )
+        );
 
         panelPalabra.revalidate();
         panelPalabra.repaint();
     }
 
-    public void actualizarTableroLetras(String letra, boolean seEncontro) {
+    public void actualizarTableroLetras(
+        String letra,
+        boolean seEncontro
+    ) {
+
         JLabel[] tableroSeleccionado;
 
         if (seEncontro) {
-            tableroSeleccionado = letrasEncontradas;
-            verificarEstadoJuego();
+
+            tableroSeleccionado =
+                letrasEncontradas;
+
         } else {
-            tableroSeleccionado = letrasErroneas;
+
+            tableroSeleccionado =
+                letrasErroneas;
+
             Actualizarturno();
-            
+
             actualizarFiguraAhorcado();
-            verificarEstadoJuego();
         }
 
-        for (int i = 0; i < tableroSeleccionado.length; i++) {
-            if (!tableroSeleccionado[i].isVisible()) {
-                tableroSeleccionado[i].setText(letra);
-                tableroSeleccionado[i].setVisible(true);
+        for (int i = 0;
+             i < tableroSeleccionado.length;
+             i++) {
+
+            if (!tableroSeleccionado[i]
+                .isVisible()) {
+
+                tableroSeleccionado[i]
+                    .setText(letra);
+
+                tableroSeleccionado[i]
+                    .setVisible(true);
+
                 break;
             }
         }
-    }
-    
-    private void actualizarFiguraAhorcado() {
-        int erroresCometidos = 6 - turno;
 
-        for (int i = 0; i < imagenAhorcado.length; i++) {
-            if (i < erroresCometidos) {
-                imagenAhorcado[i].setVisible(true);
-            } else {
-                imagenAhorcado[i].setVisible(false);
-            }
+        actualizarVisualPalabraMostrada();
+
+        verificarEstadoJuego();
+    }
+
+    private void actualizarFiguraAhorcado() {
+
+        int erroresCometidos =
+            juego.getMaxIntentos()
+            - juego.getIntentosRestantes();
+
+        for (int i = 0;
+             i < imagenAhorcado.length;
+             i++) {
+
+            imagenAhorcado[i].setVisible(
+                i < erroresCometidos
+            );
         }
 
         panelAhorcado.revalidate();
         panelAhorcado.repaint();
     }
 
-    public void mostrarErrorTemporal(String texto) {
+    public void mostrarErrorTemporal(
+        String texto
+    ) {
+
         lblError.setText(texto);
 
-        timerError = new Timer(2000, ev ->{
-            
-            lblError.setText(" ");
-            
-        });
+        if (timerError != null &&
+            timerError.isRunning()) {
+
+            timerError.stop();
+        }
+
+        timerError =
+            new Timer(
+                2000,
+                ev -> lblError.setText("")
+            );
+
         timerError.setRepeats(false);
         timerError.start();
-        
     }
-    private void Actualizarturno(){
-        turno--;
-        lblTurnos.setText("Fallos disponibles: "+turno);
+
+    private void Actualizarturno() {
+
+        if (turno > 0) {
+            turno--;
+        }
+
+        lblTurnos.setText(
+            "Fallos disponibles: " + turno
+        );
+
         if (lblFallosDisponibles != null) {
-            lblFallosDisponibles.setText("Fallos disponibles: "+turno);
+
+            lblFallosDisponibles.setText(
+                "Fallos disponibles: " + turno
+            );
         }
     }
-    
+
     private void verificarEstadoJuego() {
+
         if (juego.determinarVictoria()) {
-            new GUIFinalizacion(this, true);
+
             btnComprobar.setEnabled(false);
             txtIngresar.setEnabled(false);
-        } else if (juego.getIntentosRestantes() <= 0) {
-            new GUIFinalizacion(this, false);
+
+            new GUIFinalizacion(
+                this,
+                true
+            );
+
+        } else if (
+            juego.getIntentosRestantes() <= 0
+        ) {
+
             btnComprobar.setEnabled(false);
             txtIngresar.setEnabled(false);
+
+            new GUIFinalizacion(
+                this,
+                false
+            );
         }
     }
 
     public JTextField getTxtIngresar() {
         return txtIngresar;
-    } 
+    }
 
     public JButton getBtnComprobar() {
         return btnComprobar;

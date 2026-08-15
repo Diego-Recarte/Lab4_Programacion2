@@ -8,142 +8,300 @@ package lab4_prog2;
  *
  * @author denam
  */
+
+
+
 import javax.swing.*;
 import java.awt.*;
+
 public class GUIFinalizacion extends JDialog {
-     private JButton btnSeguir;
+
+    private JButton btnSeguir;
     private JLabel lblorden;
     private JLabel lblerror;
     private JButton lblSalir;
-    private JTextField txtpalabra;
+    private JLabel txtpalabra;
     private JPanel panel;
-    
-    
-    
-    public GUIFinalizacion(GuiJuego Padre, boolean isVictoria){
-       super(Padre, "Seleccion", true);
- 
 
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(pantalla.width, pantalla.height);
-        setLayout(new BorderLayout(10, 10));
-        getContentPane().setBackground(Color.WHITE);
-     setLocationRelativeTo(Padre);
-     
-     
-     InicializarPanel(Padre, isVictoria);
-     this.setVisible(true);
-             
-     
+    public GUIFinalizacion(
+        GuiJuego Padre,
+        boolean isVictoria
+    ) {
+
+        super(
+            Padre,
+            "Finalización",
+            true
+        );
+
+        setDefaultCloseOperation(
+            JDialog.DISPOSE_ON_CLOSE
+        );
+
+        Dimension pantalla =
+            Toolkit.getDefaultToolkit().getScreenSize();
+
+        setSize(
+            pantalla.width,
+            pantalla.height
+        );
+
+        setLayout(
+            new BorderLayout(10, 10)
+        );
+
+        getContentPane().setBackground(
+            Color.WHITE
+        );
+
+        setLocationRelativeTo(Padre);
+
+        InicializarPanel(
+            Padre,
+            isVictoria
+        );
+
+        setVisible(true);
     }
-    
-    private void InicializarPanel(GuiJuego Padre, boolean isVictoria){
-        JPanel Panelenvuelto =new JPanel(new GridBagLayout());
-        
-        if (isVictoria){
-        lblorden = new JLabel("Felicidades");
-        }else{
-            lblorden = new JLabel("Fracaso");
+
+    private void InicializarPanel(
+        GuiJuego Padre,
+        boolean isVictoria
+    ) {
+
+        JPanel Panelenvuelto =
+            new JPanel(
+                new GridBagLayout()
+            );
+
+        if (isVictoria) {
+
+            lblorden =
+                new JLabel(
+                    "¡Felicidades!"
+                );
+
+        } else {
+
+            lblorden =
+                new JLabel(
+                    "¡Has perdido!"
+                );
         }
 
-        lblorden.setFont(new Font("Arial", Font.BOLD, 20));
-        lblorden.setPreferredSize(new Dimension(600, 150));
-        lblorden.setMaximumSize(new Dimension(600, 150));
+        lblorden.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                30
+            )
+        );
 
-        lblorden.setForeground(Color.black);
-      
+        lblorden.setPreferredSize(
+            new Dimension(
+                600,
+                100
+            )
+        );
 
-       
-        lblorden.setOpaque(false);
+        lblorden.setForeground(
+            Color.BLACK
+        );
 
-        lblorden.setHorizontalAlignment(SwingConstants.CENTER);
-        lblorden.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblorden.setHorizontalAlignment(
+            SwingConstants.CENTER
+        );
 
-       
-        
-        
-        
-        
-        txtpalabra= new JTextField();
+        lblorden.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+        );
 
-        txtpalabra.setFont(new Font("Arial", Font.BOLD, 14));
-        txtpalabra.setPreferredSize(new Dimension(600, 150));
-        txtpalabra.setMaximumSize(new Dimension(600, 150));
+        String palabra =
+            Padre
+            .getJuego()
+            .getPalabraSecreta();
 
+        txtpalabra =
+            new JLabel(
+                "La palabra era: " + palabra
+            );
 
-       
-        txtpalabra.setOpaque(true);
+        txtpalabra.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                22
+            )
+        );
 
-        txtpalabra.setHorizontalAlignment(SwingConstants.CENTER);
-        txtpalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
+        txtpalabra.setPreferredSize(
+            new Dimension(
+                600,
+                100
+            )
+        );
 
-       
-        
-        
-        btnSeguir = new JButton("Ir al menu");
+        txtpalabra.setHorizontalAlignment(
+            SwingConstants.CENTER
+        );
 
-        btnSeguir.setFont(new Font("Arial", Font.BOLD, 14));
-        btnSeguir.setPreferredSize(new Dimension(600, 150));
-        btnSeguir.setMaximumSize(new Dimension(600, 150));
+        txtpalabra.setAlignmentX(
+            Component.CENTER_ALIGNMENT
+        );
 
-        btnSeguir.setForeground(Color.WHITE);
-        btnSeguir.setBackground(Color.blue);
+        btnSeguir =
+            new JButton(
+                "Ir al menú"
+            );
+
+        btnSeguir.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                18
+            )
+        );
+
+        btnSeguir.setPreferredSize(
+            new Dimension(
+                600,
+                100
+            )
+        );
+
+        btnSeguir.setMaximumSize(
+            new Dimension(
+                600,
+                100
+            )
+        );
+
+        btnSeguir.setForeground(
+            Color.WHITE
+        );
+
+        btnSeguir.setBackground(
+            Color.BLUE
+        );
 
         btnSeguir.setFocusPainted(false);
         btnSeguir.setBorderPainted(false);
-        btnSeguir.setContentAreaFilled(false);
         btnSeguir.setOpaque(true);
 
-        btnSeguir.setHorizontalAlignment(SwingConstants.CENTER);
-        btnSeguir.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         btnSeguir.addActionListener(e -> {
-            GUImenu men = new GUImenu();
-            this.dispose();
+
+            dispose();
+
             Padre.dispose();
+
+            new GUImenu();
         });
-        
-        lblSalir = new JButton("Salir");
 
-        lblSalir.setFont(new Font("Arial", Font.BOLD, 14));
-        lblSalir.setPreferredSize(new Dimension(600, 150));
-        lblSalir.setMaximumSize(new Dimension(600, 150));
+        lblSalir =
+            new JButton(
+                "Salir"
+            );
 
-        lblSalir.setForeground(Color.WHITE);
-        lblSalir.setBackground(Color.blue);
+        lblSalir.setFont(
+            new Font(
+                "Arial",
+                Font.BOLD,
+                18
+            )
+        );
+
+        lblSalir.setPreferredSize(
+            new Dimension(
+                600,
+                100
+            )
+        );
+
+        lblSalir.setMaximumSize(
+            new Dimension(
+                600,
+                100
+            )
+        );
+
+        lblSalir.setForeground(
+            Color.WHITE
+        );
+
+        lblSalir.setBackground(
+            Color.RED
+        );
 
         lblSalir.setFocusPainted(false);
         lblSalir.setBorderPainted(false);
-        lblSalir.setContentAreaFilled(false);
         lblSalir.setOpaque(true);
 
-        lblSalir.setHorizontalAlignment(SwingConstants.CENTER);
-        lblSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblSalir.addActionListener(
+            e -> System.exit(0)
+        );
 
-        lblSalir.addActionListener(e -> {
-            System.exit(0);
-        });
-        panel = new JPanel();
+        lblerror =
+            new JLabel(" ");
 
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setPreferredSize(new Dimension(400, 230));
+        panel =
+            new JPanel();
+
+        panel.setLayout(
+            new BoxLayout(
+                panel,
+                BoxLayout.Y_AXIS
+            )
+        );
+
+        panel.setPreferredSize(
+            new Dimension(
+                700,
+                600
+            )
+        );
+
         panel.setOpaque(false);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
-        
+
+        panel.setBorder(
+            BorderFactory.createEmptyBorder(
+                20,
+                20,
+                20,
+                20
+            )
+        );
+
         panel.add(lblorden);
-        panel.add(Box.createVerticalStrut(20));
+
+        panel.add(
+            Box.createVerticalStrut(20)
+        );
+
         panel.add(txtpalabra);
-        panel.add(Box.createVerticalStrut(20));
+
+        panel.add(
+            Box.createVerticalStrut(20)
+        );
+
         panel.add(btnSeguir);
-         panel.add(Box.createVerticalStrut(20));
+
+        panel.add(
+            Box.createVerticalStrut(20)
+        );
+
+        panel.add(lblSalir);
+
+        panel.add(
+            Box.createVerticalStrut(20)
+        );
+
         panel.add(lblerror);
+
         Panelenvuelto.add(panel);
-        add (Panelenvuelto, BorderLayout.CENTER);
-        
+
+        add(
+            Panelenvuelto,
+            BorderLayout.CENTER
+        );
     }
-    
-    
-    
 }

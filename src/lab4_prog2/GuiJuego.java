@@ -31,6 +31,10 @@ public class GuiJuego extends JFrame {
 
     private Timer timerError;
 
+    // referencia al juego en curso; hay que setearla desde donde se cree esta ventana
+    // ej: GuiJuego gui = new GuiJuego("Palabra fija", 6); gui.setJuego(miJuego);
+    private JuegoAhorcado juego;
+
     public GuiJuego(String mensaje, int turno) {
         this.turno = turno;
         setTitle(mensaje);
@@ -41,6 +45,10 @@ public class GuiJuego extends JFrame {
         setLayout(new BorderLayout());
         crearInterfaz(mensaje);
         setVisible(true);
+    }
+
+    public void setJuego(JuegoAhorcado juego) {
+        this.juego = juego;
     }
 
     private void crearInterfaz(String mensaje) {
@@ -156,11 +164,20 @@ public class GuiJuego extends JFrame {
     }
     
     private void detectarPalabra(String letra){
-        if (letra.length()>1){
+        try {
+            if (letra.length() != 1) {
+                throw new LetraInvalidaException("Debes ingresar una sola letra.");
+            }
+
+            char letraChar = letra.charAt(0);
+            boolean acerto = juego.procesarJugada(letraChar);
+            actualizarTableroLetras(letra, acerto);
+            // aquí se puede revisar juego.determinarVictoria() o si ya se acabaron los intentos
+
+        } catch (LetraInvalidaException | LetraRepetidaException e) {
+            mostrarErrorTemporal(e.getMessage());
+        } finally {
             txtIngresar.setText("");
-            //                                                     error de poner mas de una letra
-        }else{
-            //                                                    llamar a verificar letra
         }
     }
             
@@ -264,6 +281,7 @@ public class GuiJuego extends JFrame {
             lblError.setText(" ");
             
         });
+        timerError.start();
         
     }
     private void Actualizarturno(){

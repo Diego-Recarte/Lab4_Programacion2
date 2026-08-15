@@ -9,11 +9,11 @@ public abstract class JuegoAhorcado {
     protected int intentosRestantes;
     protected final int Maxintentos = 6;
     protected List<Character> letrasIngresadas;
-    protected JLabel[] figuraAhorcado;
+    protected JLabel[] figura;
     public JuegoAhorcado() {
         this.intentosRestantes = Maxintentos;
         this.letrasIngresadas = new ArrayList<>();
-        this.figuraAhorcado = new JLabel[6];
+        this.figura = new JLabel[6];
         
         InicializarfiguraAhorcado();
     }
@@ -49,16 +49,16 @@ public abstract class JuegoAhorcado {
         }
     }
     protected JLabel[] InicializarfiguraAhorcado(){
-        for (int i = 0; i < figuraAhorcado.length; i++) {
-        figuraAhorcado[i] = new JLabel();
-        figuraAhorcado[i].setHorizontalAlignment(JLabel.CENTER);
-        figuraAhorcado[i].setVerticalAlignment(JLabel.CENTER);
+        for (int i = 0; i < figura.length; i++) {
+        figura[i] = new JLabel();
+        figura[i].setHorizontalAlignment(JLabel.CENTER);
+        figura[i].setVerticalAlignment(JLabel.CENTER);
 
         ImageIcon icono = new ImageIcon(""); // ruta de la imagen
-        figuraAhorcado[i].setIcon(icono);
+        figura[i].setIcon(icono);
         }
 
-    return figuraAhorcado;
+    return figura;
         
         
         
@@ -67,5 +67,6 @@ public abstract class JuegoAhorcado {
     public int getIntentosRestantes() { return intentosRestantes; }
     public char[] getPalabraMostrada() { return palabraMostrada; }
     public List<Character> getLetrasIngresadas() { return letrasIngresadas; }
-    public JLabel[] getFiguraAhorcado() { return figuraAhorcado; }
+    public String[] getFiguraAhorcado() { return figuraAhorcado; }
+     
 }

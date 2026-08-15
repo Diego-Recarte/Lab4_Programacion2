@@ -17,6 +17,8 @@ public class Lab4_prog2 {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        SwingUtilities.invokeLater(() -> new GuiJuego("mensajejnfjendee", 6).setVisible(true));
+        
         
     }
     

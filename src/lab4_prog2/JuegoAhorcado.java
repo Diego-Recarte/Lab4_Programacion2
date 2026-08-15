@@ -73,7 +73,7 @@ public abstract class JuegoAhorcado {
         figura[i].setHorizontalAlignment(JLabel.CENTER);
         figura[i].setVerticalAlignment(JLabel.CENTER);
 
-        ImageIcon icono = new ImageIcon(""); // ruta de la imagen
+        ImageIcon icono = new ImageIcon("src/imagenes/"+(i+1)+".jpg"); // ruta de la imagen
         figura[i].setIcon(icono);
         }
 

@@ -31,17 +31,18 @@ public class GuiJuego extends JFrame {
     private JLabel[] imagenAhorcado;
 
     private Timer timerError;
+   
 
     // referencia al juego en curso; hay que setearla desde donde se cree esta ventana
     // ej: GuiJuego gui = new GuiJuego("Palabra fija", 6); gui.setJuego(miJuego);
     private JuegoAhorcado juego;
 
-    public GuiJuego(String mensaje, int turno) {
+    public GuiJuego(String mensaje, int turno, JuegoAhorcado juego) {
         this.turno = turno;
         setTitle(mensaje);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.juego=juego;
         getContentPane().setBackground(Color.WHITE);
         setLayout(new BorderLayout());
         crearInterfaz(mensaje);
@@ -121,7 +122,7 @@ public class GuiJuego extends JFrame {
         panelAhorcado.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         panelAhorcado.setPreferredSize(new Dimension(500, 350));
         panelAhorcado.setMaximumSize(new Dimension(500, 350));
-        cargarPanelAhorcado(JuegoAhorcado.getFiguraAhorcado());
+        cargarPanelAhorcado(juego.InicializarfiguraAhorcado());
         
 
         txtIngresar = new JTextField();
@@ -167,6 +168,21 @@ public class GuiJuego extends JFrame {
 
         return columna;
     }
+    
+    private void cargarPanelAhorcado(JLabel[] figuras) {
+        panelAhorcado.removeAll();
+
+        imagenAhorcado = figuras;
+
+        for (int i = 0; i < imagenAhorcado.length; i++) {
+            panelAhorcado.add(imagenAhorcado[i]);
+        }
+
+        panelAhorcado.revalidate();
+        panelAhorcado.repaint();
+    }
+    
+    
     
     private void detectarPalabra(String letra){
         try {
@@ -267,7 +283,7 @@ public class GuiJuego extends JFrame {
         } else {
             tableroSeleccionado = letrasErroneas;
             Actualizarturno();
-            ActualizarImagen()
+            actualizarFiguraAhorcado();
         }
 
         for (int i = 0; i < tableroSeleccionado.length; i++) {
@@ -278,6 +294,21 @@ public class GuiJuego extends JFrame {
             }
         }
     }
+    
+    private void actualizarFiguraAhorcado() {
+        int erroresCometidos = 6 - turno;
+
+        for (int i = 0; i < imagenAhorcado.length; i++) {
+            if (i < erroresCometidos) {
+                imagenAhorcado[i].setVisible(true);
+            } else {
+                imagenAhorcado[i].setVisible(false);
+            }
+        }
+
+        panelAhorcado.revalidate();
+        panelAhorcado.repaint();
+    }
 
     public void mostrarErrorTemporal(String texto) {
         lblError.setText(texto);
@@ -287,6 +318,7 @@ public class GuiJuego extends JFrame {
             lblError.setText(" ");
             
         });
+        timerError.setRepeats(false);
         timerError.start();
         
     }

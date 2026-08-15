@@ -133,6 +133,10 @@ public class GUISeleccion extends JDialog {
         add (Panelenvuelto, BorderLayout.CENTER);
         
     }
+
+    JuegoAhorcado getJuegoCreado() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 
 }

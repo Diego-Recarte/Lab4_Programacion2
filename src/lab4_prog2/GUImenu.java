@@ -9,8 +9,8 @@ package lab4_prog2;
  * @author denam
  */
 
-import javax.swing. *;
-import java.awt. *;
+import javax.swing.*;
+import java.awt.*;
 import javax.swing.JPanel;
 public class GUImenu extends JFrame{
     
@@ -39,6 +39,7 @@ public class GUImenu extends JFrame{
     
     
     
+    
     private void Inicializarbotones(){
         JPanel Panelenvuelto =new JPanel(new GridBagLayout());
         boton1 = new JButton("Palabra fija");
@@ -59,8 +60,14 @@ public class GUImenu extends JFrame{
 
         boton1.addActionListener(e -> {
            GUISeleccion gs = new GUISeleccion(this);
-           this.dispose();
+           JuegoAhorcado juego = gs.getJuegoCreado();
+           
+           if (juego != null) {
+               new GuiJuego("Ahorcado - Palabra Fija", 6, juego);
+               this.dispose();
+           }
         });
+        
         
         
         
@@ -82,7 +89,15 @@ public class GUImenu extends JFrame{
         boton2.setHorizontalAlignment(SwingConstants.CENTER);
 
         boton2.addActionListener(e -> {
-               
+                AdministradorPalabras admin = new AdministradorPalabras();
+                admin.agregarPalabra("computadora");
+                admin.agregarPalabra("programacion");
+                admin.agregarPalabra("java");
+                admin.agregarPalabra("teclado");
+                
+                JuegoAhorcado juegoAzar = new AhorcadoPalabraAzar(admin);
+                
+                new GuiJuego("Ahorcado - Palabra al Azar", 6, juegoAzar);
                 this.dispose();
         });
         
@@ -116,9 +131,9 @@ public class GUImenu extends JFrame{
         
         
         panel.add(boton1);
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
         panel.add(boton2);
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
         panel.add(boton3);
         Panelenvuelto.add(panel);
         add (Panelenvuelto, BorderLayout.CENTER);

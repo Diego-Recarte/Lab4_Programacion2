@@ -280,10 +280,13 @@ public class GuiJuego extends JFrame {
 
         if (seEncontro) {
             tableroSeleccionado = letrasEncontradas;
+            verificarEstadoJuego();
         } else {
             tableroSeleccionado = letrasErroneas;
             Actualizarturno();
+            
             actualizarFiguraAhorcado();
+            verificarEstadoJuego();
         }
 
         for (int i = 0; i < tableroSeleccionado.length; i++) {

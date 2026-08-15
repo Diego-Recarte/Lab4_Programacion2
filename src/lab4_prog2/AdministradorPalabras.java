@@ -28,4 +28,4 @@ public class AdministradorPalabras {
         int indice = random.nextInt(palabrasDisponibles.size());
         return palabrasDisponibles.get(indice);
     }
-}
+} 

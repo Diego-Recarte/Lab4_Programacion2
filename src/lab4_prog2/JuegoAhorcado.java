@@ -1,8 +1,6 @@
 package lab4_prog2;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public abstract class JuegoAhorcado {
     protected String palabraSecreta;
     protected char[] palabraMostrada;
@@ -10,35 +8,31 @@ public abstract class JuegoAhorcado {
     protected final int Maxintentos = 6;
     protected List<Character> letrasIngresadas;
     protected List<String> figuraAhorcado;
-
     public JuegoAhorcado() {
         this.intentosRestantes = Maxintentos;
         this.letrasIngresadas = new ArrayList<>();
         this.figuraAhorcado = new ArrayList<>();
     }
-
     public abstract void actualizarPalabraMostrada(char letra);
     public abstract boolean verificarLetra(char letra);
     public abstract boolean determinarVictoria();
-
-    public boolean procesarJugada(char letra) {
-        char letraNormalizada = normalizarLetra(letra);
-
-        if (letrasIngresadas.contains(letraNormalizada)) {
-            return false; 
+    public boolean procesarJugada(char letra) throws LetraInvalidaException, LetraRepetidaException {
+        if (!Character.isLetter(letra)) {
+            throw new LetraInvalidaException("Debes ingresar solo una letra, sin números ni símbolos.");
         }
-
+        char letraNormalizada = normalizarLetra(letra);
+        if (letrasIngresadas.contains(letraNormalizada)) {
+            throw new LetraRepetidaException("Ya ingresaste la letra '" + letra + "' antes.");
+        }
         letrasIngresadas.add(letraNormalizada);
-
         if (verificarLetra(letraNormalizada)) {
             actualizarPalabraMostrada(letraNormalizada);
+            return true;
         } else {
             intentosRestantes--;
+            return false;
         }
-
-        return true; 
     }
-
     protected char normalizarLetra(char c) {
         c = Character.toLowerCase(c);
         switch (c) {
@@ -50,7 +44,6 @@ public abstract class JuegoAhorcado {
             default: return c;
         }
     }
-
     public int getIntentosRestantes() { return intentosRestantes; }
     public char[] getPalabraMostrada() { return palabraMostrada; }
     public List<Character> getLetrasIngresadas() { return letrasIngresadas; }

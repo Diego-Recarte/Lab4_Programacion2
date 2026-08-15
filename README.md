@@ -1,4 +1,3 @@
-¡Claro! Basado en el código y las reglas que definimos en los mensajes anteriores (lo que armamos para el README), así es exactamente como resolvimos esos dos puntos:
 
  Mayúsculas y minúsculas:
 Las vamos a tratar como equivalentes. En el código usamos la función `Character.toLowerCase(letra)`, lo que significa que el juego convierte todo a minúsculas . Da  igual si el jugador teclea una 'A' mayúscula o una 'a' minúscula; el sistema lo lee igual.

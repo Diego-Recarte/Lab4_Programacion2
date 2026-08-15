@@ -326,6 +326,16 @@ public class GuiJuego extends JFrame {
         turno--;
         lblTurnos.setText("Fallos disponibles: "+turno);
     }
+    
+    private void verificarEstadoJuego() {
+        if (juego.determinarVictoria()) {
+            GUIFinalizacion fl =new GUIFinalizacion(this, true);
+            
+        } else if (juego.getIntentosRestantes() <= 0) {
+            GUIFinalizacion fl =new GUIFinalizacion(this, false);
+            
+        }
+    }
 
     public JTextField getTxtIngresar() {
         return txtIngresar;

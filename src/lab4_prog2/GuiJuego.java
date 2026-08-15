@@ -195,7 +195,7 @@ public class GuiJuego extends JFrame {
             actualizarTableroLetras(letra, acerto);
             // aquí se puede revisar juego.determinarVictoria() o si ya se acabaron los intentos
 
-        } catch (LetraInvalidaException | LetraRepetidaException e) {
+        } catch (LetraInvalidaException e) {
             mostrarErrorTemporal(e.getMessage());
         } finally {
             txtIngresar.setText("");
@@ -329,7 +329,7 @@ public class GuiJuego extends JFrame {
 
     public JTextField getTxtIngresar() {
         return txtIngresar;
-    }
+    } 
 
     public JButton getBtnComprobar() {
         return btnComprobar;

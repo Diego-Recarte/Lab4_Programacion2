@@ -38,7 +38,7 @@ public class GUIFinalizacion extends JDialog {
      
     }
     
-    private void InicializarPanel(GUImenu Padre, boolean isVictoria){
+    private void InicializarPanel(GuiJuego Padre, boolean isVictoria){
         JPanel Panelenvuelto =new JPanel(new GridBagLayout());
         
         if (isVictoria){

@@ -28,6 +28,7 @@ public class GuiJuego extends JFrame {
     private JLabel[][] tableroPalabra;
     private JLabel[] letrasEncontradas;
     private JLabel[] letrasErroneas;
+    private JLabel[] imagenAhorcado;
 
     private Timer timerError;
 
@@ -106,10 +107,14 @@ public class GuiJuego extends JFrame {
         lblFallosDisponibles.setAlignmentX(CENTER_ALIGNMENT);
 
         panelAhorcado = new JPanel();
+        panelAhorcado.setLayout(new GridLayout(3, 2, 10, 10));
+        
         panelAhorcado.setBackground(Color.WHITE);
         panelAhorcado.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         panelAhorcado.setPreferredSize(new Dimension(500, 350));
         panelAhorcado.setMaximumSize(new Dimension(500, 350));
+        cargarPanelAhorcado(JuegoAhorcado.getFiguraAhorcado());
+        
 
         txtIngresar = new JTextField();
         txtIngresar.setMaximumSize(new Dimension(80, 40));
@@ -245,6 +250,7 @@ public class GuiJuego extends JFrame {
         } else {
             tableroSeleccionado = letrasErroneas;
             Actualizarturno();
+            ActualizarImagen()
         }
 
         for (int i = 0; i < tableroSeleccionado.length; i++) {

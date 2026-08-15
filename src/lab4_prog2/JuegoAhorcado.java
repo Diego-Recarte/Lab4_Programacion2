@@ -1,17 +1,21 @@
 package lab4_prog2;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.*;
+import javax.swing.*;
 public abstract class JuegoAhorcado {
     protected String palabraSecreta;
     protected char[] palabraMostrada;
     protected int intentosRestantes;
     protected final int Maxintentos = 6;
     protected List<Character> letrasIngresadas;
-    protected List<String> figuraAhorcado;
+    protected JLabel[] figuraAhorcado;
     public JuegoAhorcado() {
         this.intentosRestantes = Maxintentos;
         this.letrasIngresadas = new ArrayList<>();
-        this.figuraAhorcado = new ArrayList<>();
+        this.figuraAhorcado = new JLabel[6];
+        
+        InicializarfiguraAhorcado();
     }
     public abstract void actualizarPalabraMostrada(char letra);
     public abstract boolean verificarLetra(char letra);
@@ -44,8 +48,24 @@ public abstract class JuegoAhorcado {
             default: return c;
         }
     }
+    protected JLabel[] InicializarfiguraAhorcado(){
+        for (int i = 0; i < figuraAhorcado.length; i++) {
+        figuraAhorcado[i] = new JLabel();
+        figuraAhorcado[i].setHorizontalAlignment(JLabel.CENTER);
+        figuraAhorcado[i].setVerticalAlignment(JLabel.CENTER);
+
+        ImageIcon icono = new ImageIcon(""); // ruta de la imagen
+        figuraAhorcado[i].setIcon(icono);
+        }
+
+    return figuraAhorcado;
+        
+        
+        
+        
+    }
     public int getIntentosRestantes() { return intentosRestantes; }
     public char[] getPalabraMostrada() { return palabraMostrada; }
     public List<Character> getLetrasIngresadas() { return letrasIngresadas; }
-    public List<String> getFiguraAhorcado() { return figuraAhorcado; }
+    public JLabel[] getFiguraAhorcado() { return figuraAhorcado; }
 }

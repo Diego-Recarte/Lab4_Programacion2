@@ -32,9 +32,6 @@ public class GuiJuego extends JFrame {
 
     private Timer timerError;
    
-
-    // referencia al juego en curso; hay que setearla desde donde se cree esta ventana
-    // ej: GuiJuego gui = new GuiJuego("Palabra fija", 6); gui.setJuego(miJuego);
     private JuegoAhorcado juego;
 
     public GuiJuego(String mensaje, int turno, JuegoAhorcado juego) {
@@ -45,7 +42,9 @@ public class GuiJuego extends JFrame {
         this.juego=juego;
         getContentPane().setBackground(Color.WHITE);
         setLayout(new BorderLayout());
-        crearInterfaz(mensaje);
+       
+        String palabraInicial = new String(new char[juego.getPalabraMostrada().length]).replace('\0', ' ');
+        crearInterfaz(palabraInicial);
         setVisible(true);
     }
 
@@ -74,7 +73,7 @@ public class GuiJuego extends JFrame {
         columna.setBackground(Color.WHITE);
         columna.setLayout(new BoxLayout(columna, BoxLayout.Y_AXIS));
 
-        lblTurnos = new JLabel("Turnos");
+        lblTurnos = new JLabel("Fallos disponibles: " + turno);
         lblTurnos.setFont(new Font("Arial", Font.BOLD, 24));
         lblTurnos.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -111,7 +110,7 @@ public class GuiJuego extends JFrame {
         columna.setBackground(Color.WHITE);
         columna.setLayout(new BoxLayout(columna, BoxLayout.Y_AXIS));
 
-        lblFallosDisponibles = new JLabel("Fallos disponibles: 6");
+        lblFallosDisponibles = new JLabel("Fallos disponibles: " + turno);
         lblFallosDisponibles.setFont(new Font("Arial", Font.BOLD, 20));
         lblFallosDisponibles.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -148,6 +147,9 @@ public class GuiJuego extends JFrame {
         detectarPalabra(txtIngresar.getText());
         });
         
+        txtIngresar.addActionListener(ev->{
+        detectarPalabra(txtIngresar.getText());
+        });
 
         lblError = new JLabel("");
         lblError.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -186,24 +188,45 @@ public class GuiJuego extends JFrame {
     
     private void detectarPalabra(String letra){
         try {
-            if (letra.length() != 1) {
+            if (letra == null || letra.trim().isEmpty() || letra.length() != 1) {
                 throw new LetraInvalidaException("Debes ingresar una sola letra.");
             }
 
             char letraChar = letra.charAt(0);
-            boolean acerto = juego.procesarJugada(letraChar);
-            actualizarTableroLetras(letra, acerto);
-            // aquí se puede revisar juego.determinarVictoria() o si ya se acabaron los intentos
+            
+            boolean jugadaValida = juego.procesarJugada(letraChar);
+            
+            if (!jugadaValida) {
+                mostrarErrorTemporal("La letra '" + letraChar + "' ya fue ingresada.");
+                return;
+            }
+
+            char letraNormalizada = juego.normalizarLetra(letraChar);
+            boolean acerto = juego.verificarLetra(letraNormalizada);
+            
+            if (acerto) {
+                actualizarVisualPalabraMostrada();
+            }
+
+            actualizarTableroLetras(String.valueOf(letraChar).toUpperCase(), acerto);
 
         } catch (LetraInvalidaException e) {
             mostrarErrorTemporal(e.getMessage());
         } finally {
             txtIngresar.setText("");
+            txtIngresar.requestFocus();
         }
     }
             
-            
-    
+    private void actualizarVisualPalabraMostrada() {
+        char[] palabraActual = juego.getPalabraMostrada();
+        for (int i = 0; i < palabraActual.length; i++) {
+            if (palabraActual[i] != '_') {
+                tableroPalabra[0][i].setText(String.valueOf(palabraActual[i]).toUpperCase());
+            }
+        }
+    }
+         
     
 
     private JPanel crearColumnaDerecha() {
@@ -328,15 +351,20 @@ public class GuiJuego extends JFrame {
     private void Actualizarturno(){
         turno--;
         lblTurnos.setText("Fallos disponibles: "+turno);
+        if (lblFallosDisponibles != null) {
+            lblFallosDisponibles.setText("Fallos disponibles: "+turno);
+        }
     }
     
     private void verificarEstadoJuego() {
         if (juego.determinarVictoria()) {
-            GUIFinalizacion fl =new GUIFinalizacion(this, true);
-            
+            new GUIFinalizacion(this, true);
+            btnComprobar.setEnabled(false);
+            txtIngresar.setEnabled(false);
         } else if (juego.getIntentosRestantes() <= 0) {
-            GUIFinalizacion fl =new GUIFinalizacion(this, false);
-            
+            new GUIFinalizacion(this, false);
+            btnComprobar.setEnabled(false);
+            txtIngresar.setEnabled(false);
         }
     }
 
